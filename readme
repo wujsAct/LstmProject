@@ -1,0 +1,4 @@
+#compile c++ with head file
+g++ -c LSTMParam.cpp
+g++ -c main.cpp
+g++ -o out LSTMParam.o main.o
