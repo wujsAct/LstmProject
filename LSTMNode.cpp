@@ -26,3 +26,20 @@ void LSTMNode::bottom_data_is(vector<double> x, vector<double> s_prev, vector<do
   this->xc = xc;
 }
 
+void LSTMNode::top_diff_is(vector<double> top_diff_h, vector<double> top_diff_s){
+  vector<double> d_s = vecA_add_vecB( vecA_mul_vecB(this->state->get_o(),top_diff_h), top_diff_s);
+  vector<double> d_o = vecA_mul_vecB(this->state->get_s(),top_diff_h);
+  vector<double> d_i = vecA_mul_vecB(this->state->get_g(),d_s);
+  vector<double> d_g = vecA_mul_vecB(this->state->get_i(),d_s);
+  vector<double> d_f = vecA_mul_vecB(this->s_prev,d_s);
+  
+  //diffs w.r.t vector inside sigma/tanh function
+  vector<double> di_input = vecA_mul_vecB(vecA_mul_vecB(num_minus_vec(1,this->state->get_i()), this->state->get_i()),d_i);
+  vector<double> df_input = vecA_mul_vecB(vecA_mul_vecB(num_minus_vec(1,this->state->get_f()), this->state->get_f()),d_f);
+  vector<double> do_input = vecA_mul_vecB(vecA_mul_vecB(num_minus_vec(1,this->state->get_o()), this->state->get_o()),d_o);
+  vector<double> dg_input = vecA_mul_vecB(num_minus_vec(1,vecA_mul_vecB(this->state->get_o(),this->state->get_o())),d_g);
+  
+  //diffs w.r.t inputs
+  this->param->set_wi_diff
+}
+

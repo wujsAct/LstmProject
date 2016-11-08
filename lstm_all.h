@@ -65,6 +65,8 @@ class LSTMNode{
   public:
     LSTMNode(int mem_cell_dim,int x_dim);
     void bottom_data_is(vector<double> x, vector<double> s_prev, vector<double> h_prev);
+    void top_diff_is(vector<double> top_diff_h, vector<double> top_diff_s);
+    
 };
 
 //initialize_matrix.cpp
@@ -82,6 +84,7 @@ vector< vector<double> > mat_multiply_num(vector< vector<double> > matA, double 
 vector<double> concatenate(vector<double> m1, vector<double> m2);
 vector<double> mat_dot_vec(vector< vector<double> > m, vector<double> v);
 vector<double> vecA_mul_vecB(vector<double> v1, vector<double> v2);
+vector<double> num_minus_vec(double num, vector<double> v);
 
 //vector nonlinear transformation
 double sigmoid(double num);

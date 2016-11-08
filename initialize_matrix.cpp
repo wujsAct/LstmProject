@@ -153,3 +153,13 @@ vector<double> vecA_mul_vecB(vector<double> v1, vector<double> v2){
   }
   return ret;
 }
+
+//nums-vector
+vector<double> num_minus_vec(double num, vector<double> v){
+  if(v.size()==0){cout<<"vector is null"<<endl; exit(-1);}
+  vector<double> ret;
+  for(size_t i=0;i<v.size();i++){
+    ret.push_back(num-v[i]);
+  }
+  return ret;
+}
