@@ -1,4 +1,5 @@
-#compile c++ with head file
-g++ -c LSTMParam.cpp
-g++ -c main.cpp
-g++ -o out LSTMParam.o main.o
+https://github.com/nicodjimenez/lstm/blob/master/lstm.py#L115 provide the python version.
+
+To run this lstm project:
+./run.sh
+
