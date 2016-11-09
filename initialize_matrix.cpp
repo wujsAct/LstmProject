@@ -67,7 +67,12 @@ vector<double>  zeros_init_like(vector<double>  m){
 
 vector<double> vecA_minus_vecB(vector<double> vecA, vector<double> vecB){
   vector<double> ret;
-  if(vecA.size()!=vecB.size()) {exit(-1);}
+  //cout<<"vecA.size():"<<vecA.size()<<endl;
+  //cout<<"vecB.size():"<<vecB.size()<<endl;
+  if(vecA.size()!=vecB.size()) {
+    cout<<"vecA_minus_vecB wrong: dimension mismatch!"<<endl;
+    exit(-1);
+  }
   for(size_t i=0; i< vecA.size(); i++){
     ret.push_back(vecA[i]-vecB[i]); 
   }
@@ -76,7 +81,10 @@ vector<double> vecA_minus_vecB(vector<double> vecA, vector<double> vecB){
 
 vector<double> vecA_add_vecB(vector<double> vecA, vector<double> vecB){
   vector<double> ret;
-  if(vecA.size()!=vecB.size()) {exit(-1);}
+  if(vecA.size()!=vecB.size()) {
+    cout<<"vecA_add_vecB wrong: dimension mismatch!"<<endl;
+    exit(-1);
+  }
   for(size_t i=0; i< vecA.size(); i++){
     ret.push_back(vecA[i]+vecB[i]); 
   }
@@ -85,7 +93,10 @@ vector<double> vecA_add_vecB(vector<double> vecA, vector<double> vecB){
 
 vector< vector<double> > matA_minus_matB(vector< vector<double> > matA, vector< vector<double> > matB){
   vector< vector<double> > ret;
-  if(matA.size()!=matB.size() || matA[0].size() != matB[0].size()) {exit(-1);}
+  if(matA.size()!=matB.size() || matA[0].size() != matB[0].size()) {
+    cout<<"matA_minus_matB wrong: dimension mismatch!"<<endl;
+    exit(-1);
+  }
   for(size_t i=0; i< matA.size(); i++){
     vector<double> temp;
     for(size_t j=0; j< matA[0].size();j++){
@@ -98,7 +109,10 @@ vector< vector<double> > matA_minus_matB(vector< vector<double> > matA, vector< 
 
 vector< vector<double> > matA_add_matB(vector< vector<double> > matA, vector< vector<double> > matB){
   vector< vector<double> > ret;
-  if(matA.size()!=matB.size() || matA[0].size() != matB[0].size()) {exit(-1);}
+  if(matA.size()!=matB.size() || matA[0].size() != matB[0].size()) {
+    cout<<"matA_add_matB wrong: dimension mismatch!"<<endl;
+    exit(-1);
+  }
   for(size_t i=0; i< matA.size(); i++){
     vector<double> temp;
     for(size_t j=0; j< matA[0].size();j++){
@@ -128,9 +142,6 @@ vector< vector<double> > mat_multiply_num(vector< vector<double> > matA, double 
 
 //two vecotrs concatenate
 vector<double> concatenate(vector<double> m1, vector<double> m2){
-  if(m1.size() != m2.size()){
-    exit(-1);
-  }
   vector<double> ret;
   for(size_t i=0;i<m1.size();i++)
     ret.push_back(m1[i]);
@@ -141,7 +152,10 @@ vector<double> concatenate(vector<double> m1, vector<double> m2){
 
 //dot(matrix m, vector xc)
 vector<double> mat_dot_vec(vector< vector<double> > m, vector<double> v){
-  if(m[0].size() != v.size()) {exit(-1);}
+  if(m[0].size() != v.size()) {
+    cout<<"mat_dot_vec wrong: dimension mismatch!"<<endl;
+    exit(-1);
+  }
   int row = m.size();
   double nums=0;
   vector<double> ret;
@@ -157,7 +171,10 @@ vector<double> mat_dot_vec(vector< vector<double> > m, vector<double> v){
 
 //vector * vector
 vector<double> vecA_mul_vecB(vector<double> v1, vector<double> v2){
-  if(v1.size()!=v2.size()) {exit(-1);}
+  if(v1.size()!=v2.size()) {
+    cout<<"vecA_mul_vecB wrong: dimension mismatch!"<<endl;
+    exit(-1);
+  }
   vector<double> ret;
   double num = 0;
   for(size_t i=0;i<v1.size();i++){
@@ -183,7 +200,10 @@ vector< vector<double> > vecA_outer_vecB(vector<double> v1, vector<double> v2){
 
 //nums-vector
 vector<double> num_minus_vec(double num, vector<double> v){
-  if(v.size()==0){cout<<"vector is null"<<endl; exit(-1);}
+  if(v.size()==0){
+    cout<<"num_minus_vec wrong: vector is null"<<endl; 
+    exit(-1);
+  }
   vector<double> ret;
   for(size_t i=0;i<v.size();i++){
     ret.push_back(num-v[i]);
@@ -193,25 +213,27 @@ vector<double> num_minus_vec(double num, vector<double> v){
 
 //transpose matrix
 vector <vector<double>> mat_transpose(vector< vector<double> > m){
+  
   if(m.size()==0 || m[0].size()==0){
-    cout<<"matrix in wrong, can not be transposed"<<endl;
+    cout<<"mat_transpose is wrong, can not be transposed"<<endl;
     exit(-1);
   }
   vector <vector<double>> ret;
   for(size_t j=0;j<m[0].size();j++){
     vector<double> temp;
-    for(size_t i=0;j<m.size();i++){
+    for(size_t i=0;i<m.size();i++){
       temp.push_back(m[i][j]);
     }
     ret.push_back(temp);
   }
+  return ret;
 }
 
 //sub vector
 vector<double> sub_vector(vector<double> v, int start, int end){
   int len = end -start;
   vector<double>::const_iterator first = v.begin() + start;
-  vector<double>::const_iterator last = first + end;
+  vector<double>::const_iterator last = first + len;
   vector<double> ret(first, last);
 
   return ret;
