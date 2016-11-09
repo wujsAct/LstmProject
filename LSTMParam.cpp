@@ -53,6 +53,14 @@ void LSTMParam::apply_diff(double lr=1.0)
   this->bo_diff = zeros_init_like(this->bo);
 }
 
+double LSTMParam::get_x_dim(){
+  return this->x_dim;
+}
+
+double LSTMParam::get_mem_cell_dim(){
+  return this->mem_cell_dim;
+}
+
 vector< vector<double> > LSTMParam::get_wg(){
   return this->wg;
 }

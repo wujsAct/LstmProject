@@ -96,6 +96,19 @@ vector< vector<double> > matA_minus_matB(vector< vector<double> > matA, vector< 
   return ret;
 }
 
+vector< vector<double> > matA_add_matB(vector< vector<double> > matA, vector< vector<double> > matB){
+  vector< vector<double> > ret;
+  if(matA.size()!=matB.size() || matA[0].size() != matB[0].size()) {exit(-1);}
+  for(size_t i=0; i< matA.size(); i++){
+    vector<double> temp;
+    for(size_t j=0; j< matA[0].size();j++){
+      temp.push_back(matA[i][j]+matB[i][j]);
+    }
+    ret.push_back(temp);
+  }
+  return ret;
+}
+
 vector<double> vec_multiply_num(vector<double> vecA, double num){
   vector<double> ret;
   for(size_t i=0; i< vecA.size(); i++){
@@ -154,6 +167,20 @@ vector<double> vecA_mul_vecB(vector<double> v1, vector<double> v2){
   return ret;
 }
 
+vector< vector<double> > vecA_outer_vecB(vector<double> v1, vector<double> v2){
+  vector< vector<double> > ret;
+  double num = 0;
+  for(size_t i=0;i<v1.size();i++){
+    vector<double> temp;
+    for(size_t j=0;j<v2.size();j++){
+      num = v1[i] * v2[j];
+      temp.push_back(num);
+    }
+    ret.push_back(temp);
+  }
+  return ret;
+}
+
 //nums-vector
 vector<double> num_minus_vec(double num, vector<double> v){
   if(v.size()==0){cout<<"vector is null"<<endl; exit(-1);}
@@ -161,5 +188,31 @@ vector<double> num_minus_vec(double num, vector<double> v){
   for(size_t i=0;i<v.size();i++){
     ret.push_back(num-v[i]);
   }
+  return ret;
+}
+
+//transpose matrix
+vector <vector<double>> mat_transpose(vector< vector<double> > m){
+  if(m.size()==0 || m[0].size()==0){
+    cout<<"matrix in wrong, can not be transposed"<<endl;
+    exit(-1);
+  }
+  vector <vector<double>> ret;
+  for(size_t j=0;j<m[0].size();j++){
+    vector<double> temp;
+    for(size_t i=0;j<m.size();i++){
+      temp.push_back(m[i][j]);
+    }
+    ret.push_back(temp);
+  }
+}
+
+//sub vector
+vector<double> sub_vector(vector<double> v, int start, int end){
+  int len = end -start;
+  vector<double>::const_iterator first = v.begin() + start;
+  vector<double>::const_iterator last = first + end;
+  vector<double> ret(first, last);
+
   return ret;
 }

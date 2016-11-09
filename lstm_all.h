@@ -1,6 +1,7 @@
 #ifndef LSTM_H
 #define LSTM_H
 #include <iostream>
+#include <string>
 #include <random>
 #include <ctime>
 #include <cmath>
@@ -22,6 +23,7 @@ class LSTMParam{
   public:
     LSTMParam(int mem_cell_dim, int x_dim); //constructor
     void apply_diff(double lr);
+    double get_x_dim(); double get_mem_cell_dim();
     vector< vector<double> > get_wg(); vector< vector<double> > get_wg_diff(); vector<double> get_bg(); vector<double> get_bg_diff();
     vector< vector<double> > get_wi(); vector< vector<double> > get_wi_diff(); vector<double> get_bi(); vector<double> get_bi_diff();
     vector< vector<double> > get_wf(); vector< vector<double> > get_wf_diff(); vector<double> get_bf(); vector<double> get_bf_diff();
@@ -79,12 +81,16 @@ vector<double>  zeros_init_like(vector<double>  m);
 vector<double> vecA_minus_vecB(vector<double> vecA, vector<double> vecB);
 vector<double> vecA_add_vecB(vector<double> vecA, vector<double> vecB);
 vector< vector<double> > matA_minus_matB(vector< vector<double> > matA, vector< vector<double> > matB);
+vector< vector<double> > matA_add_matB(vector< vector<double> > matA, vector< vector<double> > matB);
 vector<double> vec_multiply_num(vector<double> vecA, double num);
 vector< vector<double> > mat_multiply_num(vector< vector<double> > matA, double num);
 vector<double> concatenate(vector<double> m1, vector<double> m2);
 vector<double> mat_dot_vec(vector< vector<double> > m, vector<double> v);
 vector<double> vecA_mul_vecB(vector<double> v1, vector<double> v2);
 vector<double> num_minus_vec(double num, vector<double> v);
+vector< vector<double> > vecA_outer_vecB(vector<double> v1, vector<double> v2);
+vector <vector<double>> mat_transpose(vector< vector<double> > m);
+vector<double> sub_vector(vector<double> v, int start, int end);
 
 //vector nonlinear transformation
 double sigmoid(double num);

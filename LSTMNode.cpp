@@ -40,6 +40,27 @@ void LSTMNode::top_diff_is(vector<double> top_diff_h, vector<double> top_diff_s)
   vector<double> dg_input = vecA_mul_vecB(num_minus_vec(1,vecA_mul_vecB(this->state->get_o(),this->state->get_o())),d_g);
   
   //diffs w.r.t inputs
-  this->param->set_wi_diff
+  this->param->set_wi_diff(matA_add_matB(this->param->get_wi_diff(), vecA_outer_vecB(di_input, this->xc)));
+  this->param->set_wf_diff(matA_add_matB(this->param->get_wf_diff(), vecA_outer_vecB(df_input, this->xc)));
+  this->param->set_wo_diff(matA_add_matB(this->param->get_wo_diff(), vecA_outer_vecB(do_input, this->xc)));
+  this->param->set_wo_diff(matA_add_matB(this->param->get_wg_diff(), vecA_outer_vecB(dg_input, this->xc)));
+  
+  this->param->set_bi_diff(vecA_add_vecB(this->param->get_bi_diff(),di_input));
+  this->param->set_bf_diff(vecA_add_vecB(this->param->get_bf_diff(),df_input));
+  this->param->set_bo_diff(vecA_add_vecB(this->param->get_bo_diff(),do_input));
+  this->param->set_bg_diff(vecA_add_vecB(this->param->get_bg_diff(),dg_input));
+  
+  //compute bottom diff
+  vector<double> dxc = zeros_init_like(this->xc);
+  dxc = vecA_add_vecB(dxc,mat_dot_vec(mat_transpose(this->param->get_wi()),di_input));
+  dxc = vecA_add_vecB(dxc,mat_dot_vec(mat_transpose(this->param->get_wf()),df_input));
+  dxc = vecA_add_vecB(dxc,mat_dot_vec(mat_transpose(this->param->get_wo()),do_input));
+  dxc = vecA_add_vecB(dxc,mat_dot_vec(mat_transpose(this->param->get_wg()),dg_input));
+  
+  //save bottom diffs
+  this->state->set_bottom_diff_s(vecA_mul_vecB(d_s,this->state->get_f()));
+  this->state->set_bottom_diff_x(sub_vector(dxc,0,this->param->get_x_dim()));
+  this->state->set_bottom_diff_s(sub_vector(dxc,this->param->get_x_dim(),dxc.size()));
+  
 }
 
