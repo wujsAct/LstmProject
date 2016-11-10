@@ -6,12 +6,13 @@ LSTMNetwork::LSTMNetwork(LSTMParam* param){
 
 double LSTMNetwork::y_list_is(vector< vector<double> > y_list,LossLayer lossLayer){
   if(y_list.size()!=this->x_list.size()){
-    //cout<<"y_list_is: x and y dimension is mismatched!"<<endl;
+    cout<<"y_list_is: x and y dimension is mismatched!"<<endl;
     exit(-1);
   }
   
   int idx = this->x_list.size()-1;
   //first node only gets diffs from label.
+
   double loss = lossLayer.loss(this->lstm_node_list[idx].get_state()->get_h(),y_list[idx]);
   //cout<<"loss is right"<<endl;
   
@@ -36,7 +37,7 @@ double LSTMNetwork::y_list_is(vector< vector<double> > y_list,LossLayer lossLaye
     //cout<<"this->lstm_node_list[idx+1].get_state()->get_bottom_diff_h() size:"<<this->lstm_node_list[idx+1].get_state()->get_bottom_diff_h().size()<<endl;
     diff_h = vecA_add_vecB(diff_h,this->lstm_node_list[idx+1].get_state()->get_bottom_diff_h());
     //cout<<"idx diff_h right"<<endl;
-    diff_s = vecA_add_vecB(diff_s,this->lstm_node_list[idx+1].get_state()->get_bottom_diff_s());
+    diff_s = this->lstm_node_list[idx+1].get_state()->get_bottom_diff_s();
     //cout<<"idx diff_s right"<<endl;
     this->lstm_node_list[idx].top_diff_is(diff_h,diff_s);
     idx -=1;
@@ -54,14 +55,10 @@ void LSTMNetwork::x_list_clear(){
 
 void LSTMNetwork::x_list_add(vector<double> x){
   //cout<<"x_list_add:"<<endl;
-  for(size_t i=0;i<x.size();i++){
-    //cout<<x[i]<<"\t";
-  }
-  //cout<<endl;
   
   this->x_list.push_back(x);
   
-  if(this->x_list.size() >= this->lstm_node_list.size()){  //we need to add new lstm node, create new state men
+  if(this->x_list.size() > this->lstm_node_list.size()){  //we need to add new lstm node, create new state men
     LSTMState* lstm_state = new LSTMState(this->param->get_mem_cell_dim(),this->param->get_x_dim());
     this->lstm_node_list.push_back(LSTMNode(this->param,lstm_state));
   }

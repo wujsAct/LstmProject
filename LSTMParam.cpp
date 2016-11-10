@@ -30,7 +30,7 @@ LSTMParam::LSTMParam(int mem_cell_dim, int x_dim)
   this->bo_diff = zeros_init(mem_cell_dim);
 }
 
-void LSTMParam::apply_diff(double lr=1.0)
+void LSTMParam::apply_diff(double lr=0.0001)
 {
   this->wg = matA_minus_matB(this->wg, mat_multiply_num(this->wg_diff,lr));
   this->wi = matA_minus_matB(this->wi, mat_multiply_num(this->wi_diff,lr));

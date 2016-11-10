@@ -1,10 +1,13 @@
 #include <iostream>
-#include "lstm_all.h"
-
+#include <vector>
+#include <typeinfo>
 using namespace std;
 
 int main(){
-  LSTMParam lstmParam(2,3);
-  cout<<lstmParam.printM()<<endl;
+  vector< vector <double> > tt;
+  vector<double> t; t.push_back(1);
+  tt.push_back(t);
+  int t1 = 0;
+  cout<<typeid(t1).name()<<endl;
   return 1;
 }

@@ -1,7 +1,7 @@
 #include "lstm_all.h"
 
 double sigmoid(double num){
-  return 1.0/(1+exp(num));
+  return 1.0/(1+exp(num*(-1.0)));
 }
 
 vector<double> vec_nonlinear(vector<double> v,string fun="sigmoid"){

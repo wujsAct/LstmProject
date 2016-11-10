@@ -1,7 +1,7 @@
 #include "lstm_all.h"
 
 void example(){
-  int mem_cell_dim = 100; int x_dim = 50; int concat_len = mem_cell_dim+x_dim;
+  int mem_cell_dim = 20; int x_dim = 10; int concat_len = mem_cell_dim+x_dim;
   
   LSTMParam param = LSTMParam(mem_cell_dim,x_dim);
   LSTMNetwork lstm_net = LSTMNetwork(&param);
@@ -23,7 +23,7 @@ void example(){
   double lr=0.1;
   cout<<"right x_list"<<endl;
   
-  for(int cur_iter=0;cur_iter<100;cur_iter++){
+  for(int cur_iter=0;cur_iter<10000;cur_iter++){
     //cout<<"cur_iter: "<<cur_iter<<endl;
     int i=0;
     for(auto x : x_list){
@@ -33,12 +33,16 @@ void example(){
     }
     
     double loss = lstm_net.y_list_is(y_list,lossLayer);
-    if(cur_iter%10==0){ 
+    if(cur_iter%50==0){ 
       cout<<"loss:"<<loss<<endl;
     }
     param.apply_diff(lr);
     lstm_net.x_list_clear();
   }
+  for(size_t i =0;i< lstm_net.get_lstm_node_list().size();i++){
+    cout<<lstm_net.get_lstm_node_list()[i].get_state()->get_h()[0]<<"\t";
+  }
+  cout<<endl;
 }
 int main(){
   example();
