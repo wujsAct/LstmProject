@@ -1,5 +1,5 @@
 https://github.com/nicodjimenez/lstm/blob/master/lstm.py#L115 provide the python version.
 
 To run this lstm project:
-./run.sh
-
+./run.sh   #编译项目
+./out   #运行项目！
