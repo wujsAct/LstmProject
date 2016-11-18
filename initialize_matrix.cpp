@@ -169,6 +169,18 @@ vector<double> mat_dot_vec(vector< vector<double> > m, vector<double> v){
   return ret;
 }
 
+double vec_dot_vec( vector<double>  v1, vector<double> v2){
+  if(v1.size() != v2.size()) {
+    cout<<"vec_dot_vec wrong: dimension mismatch!"<<endl;
+    exit(-1);
+  }
+  double ret;
+  for(size_t i =0;i<v1.size();i++){
+    ret += v1[i]*v2[i];
+  }  
+  return ret;
+}
+
 //vector * vector
 vector<double> vecA_mul_vecB(vector<double> v1, vector<double> v2){
   if(v1.size()!=v2.size()) {

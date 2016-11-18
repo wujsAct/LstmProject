@@ -22,6 +22,7 @@ vector<double> vec_multiply_num(vector<double> vecA, double num);
 vector< vector<double> > mat_multiply_num(vector< vector<double> > matA, double num);
 vector<double> concatenate(vector<double> m1, vector<double> m2);
 vector<double> mat_dot_vec(vector< vector<double> > m, vector<double> v);
+double vec_dot_vec(vector<double> v1, vector<double> v2);
 vector<double> vecA_mul_vecB(vector<double> v1, vector<double> v2);
 vector<double> num_minus_vec(double num, vector<double> v);
 vector< vector<double> > vecA_outer_vecB(vector<double> v1, vector<double> v2);
@@ -82,8 +83,8 @@ class LSTMState{
 
 class LSTMNode{
   private:
-    LSTMParam* param;
-    LSTMState* state;
+    LSTMParam *param;
+    LSTMState *state;
 
     vector<double> x;  //non-recurrent input to node;
     vector<double> xc; //non-recurrent input concatenated with recurrent input
@@ -101,13 +102,13 @@ class LossLayer{
   public:
     //simple loss
     LossLayer();
-    double loss(vector<double> pred, vector<double> label);
-    vector<double> bottom_diff(vector<double> pred, vector<double> label);
+    double loss(vector<double> pred, vector<double> label,string str,int flag=0);
+    vector<double> bottom_diff(vector<double> pred, vector<double> label,string str,int flag=0);
 };
 
 class LSTMNetwork{
   private:
-    LSTMParam* param;
+    LSTMParam *param;
     vector<LSTMNode> lstm_node_list;
     vector< vector<double> > x_list;
   public:
