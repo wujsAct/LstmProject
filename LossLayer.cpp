@@ -3,7 +3,7 @@
 LossLayer::LossLayer(){}
 
 //flag = 0 表示为正例
-double LossLayer::loss(vector<double> pred, vector<double> label, string type,int flag=0){
+double LossLayer::loss(vector<double> pred, vector<double> label, string type,int flag){
   
   if(pred.size() != label.size()){
     cout<<"pred and label size is mismatch, can not compute loss"<<endl;
@@ -32,11 +32,10 @@ double LossLayer::loss(vector<double> pred, vector<double> label, string type,in
   else{
     loss = pow(pred[0]-label[0],2);
   }
-  
   return loss;
 }
 
-vector<double> LossLayer::bottom_diff(vector<double> pred, vector<double> label,string type,int flag=0){
+vector<double> LossLayer::bottom_diff(vector<double> pred, vector<double> label,string type,string flag="dot"){
   if(pred.size() != label.size()){
     cout<<"pred and label size is mismatch, can not compute loss"<<endl;
     exit(-1);
@@ -58,7 +57,7 @@ vector<double> LossLayer::bottom_diff(vector<double> pred, vector<double> label,
     }
     else{
       for(size_t i = 0;i< label.size();i++)
-          diff[i] = -label[i];
+          diff[i] = label[i];
     }
   }else{
     diff[0] = 2*(pred[0]-label[0]);

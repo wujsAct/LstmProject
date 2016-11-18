@@ -4,47 +4,6 @@ LSTMNetwork::LSTMNetwork(LSTMParam* param){
   this->param = param;
 }
 
-double LSTMNetwork::y_list_final(vector< vector<double> > y_list,LossLayer lossLayer){
-  //Back propagation倒着求解全部的内容！
-  if(y_list.size()!=this->x_list.size()){
-    cout<<"y_list_is: x and y dimension is mismatched!"<<endl;
-    exit(-1);
-  }
-  
-  int idx = this->x_list.size()-1;
-  //first node only gets diffs from label.
-
-  double loss = lossLayer.loss(this->lstm_node_list[idx].get_state()->get_h(),y_list[idx],"dot");
-  //cout<<"loss is right"<<endl;
-  
-  vector<double> diff_h = lossLayer.bottom_diff(this->lstm_node_list[idx].get_state()->get_h(),y_list[idx],"dot");
-  //cout<<"diff_h is right"<<endl;
-  
-  //here s has no effects on loss due to h(t+1), hence we set it equal to zero
-  vector<double> diff_s = zeros_init(this->param->get_mem_cell_dim());
-  //cout<<"diff_s is right"<<endl;
-  
-  this->lstm_node_list[idx].top_diff_is(diff_h,diff_s,this->lstm_node_list[idx-1]);
-  
-  //cout<<"lstm_node_list is right"<<endl;
-  
-  idx -=1;
-  
-    
-  while(idx>=0){
-    //cout<<"idx:"<<idx<<endl;
-    diff_h = this->lstm_node_list[idx+1].get_state()->get_bottom_diff_h();
-    //cout<<"idx diff_h right"<<endl;
-    diff_s = this->lstm_node_list[idx+1].get_state()->get_bottom_diff_s();
-    //cout<<"idx diff_s right"<<endl;
-    this->lstm_node_list[idx].top_diff_is(diff_h,diff_s,this->lstm_node_list[idx-1]);
-    idx -=1;
-  }
-  
-  return loss;
-}
-
-//revise the loss function
 double LSTMNetwork::y_list_is(vector< vector<double> > y_list,LossLayer lossLayer){
   //Back propagation倒着求解全部的内容！
   if(y_list.size()!=this->x_list.size()){
@@ -56,6 +15,50 @@ double LSTMNetwork::y_list_is(vector< vector<double> > y_list,LossLayer lossLaye
   //first node only gets diffs from label.
 
   double loss = lossLayer.loss(this->lstm_node_list[idx].get_state()->get_h(),y_list[idx],"None");
+  //cout<<"loss is right"<<endl;
+  
+  vector<double> diff_h = lossLayer.bottom_diff(this->lstm_node_list[idx].get_state()->get_h(),y_list[idx],"None");
+  //cout<<"diff_h is right"<<endl;
+  
+  //here s has no effects on loss due to h(t+1), hence we set it equal to zero
+  vector<double> diff_s = zeros_init(this->param->get_mem_cell_dim());
+  //cout<<"diff_s is right"<<endl;
+  
+  this->lstm_node_list[idx].top_diff_is(diff_h,diff_s);
+  
+  //cout<<"lstm_node_list is right"<<endl;
+  
+  idx -=1;
+  
+  while(idx>=0){
+    //cout<<"idx:"<<idx<<endl;
+    loss += lossLayer.loss(this->lstm_node_list[idx].get_state()->get_h(),y_list[idx],"None");
+    diff_h = lossLayer.bottom_diff(this->lstm_node_list[idx].get_state()->get_h(),y_list[idx],"None");
+    //cout<<"idx diff_h size"<<diff_h.size()<<endl;
+    //cout<<"this->lstm_node_list[idx+1].get_state()->get_bottom_diff_h() size:"<<this->lstm_node_list[idx+1].get_state()->get_bottom_diff_h().size()<<endl;
+    diff_h = vecA_add_vecB(diff_h,this->lstm_node_list[idx+1].get_state()->get_bottom_diff_h());
+    //cout<<"idx diff_h right"<<endl;
+    diff_s = this->lstm_node_list[idx+1].get_state()->get_bottom_diff_s();
+    //cout<<"idx diff_s right"<<endl;
+    this->lstm_node_list[idx].top_diff_is(diff_h,diff_s);
+    idx -=1;
+  }
+  
+  return loss;
+}
+
+//revise 
+double LSTMNetwork::y_list_final(vector< vector<double> > y_list,LossLayer lossLayer){
+  //Back propagation倒着求解全部的内容！
+  if(y_list.size()!=this->x_list.size()){
+    cout<<"y_list_is: x and y dimension is mismatched!"<<endl;
+    exit(-1);
+  }
+  
+  int idx = this->x_list.size()-1;
+  //first node only gets diffs from label.
+
+  double loss = lossLayer.loss(this->lstm_node_list[idx].get_state()->get_h(),y_list[idx],"dot");
   //cout<<"loss is right"<<endl;
   
   vector<double> diff_h = lossLayer.bottom_diff(this->lstm_node_list[idx].get_state()->get_h(),y_list[idx],"None");

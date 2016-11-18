@@ -19,6 +19,7 @@ vector<double> vecA_add_vecB(vector<double> vecA, vector<double> vecB);
 vector< vector<double> > matA_minus_matB(vector< vector<double> > matA, vector< vector<double> > matB);
 vector< vector<double> > matA_add_matB(vector< vector<double> > matA, vector< vector<double> > matB);
 vector<double> vec_multiply_num(vector<double> vecA, double num);
+vector<double> vec_multiply_mat(vector<double> v,vector< vector<double> > m);
 vector< vector<double> > mat_multiply_num(vector< vector<double> > matA, double num);
 vector<double> concatenate(vector<double> m1, vector<double> m2);
 vector<double> mat_dot_vec(vector< vector<double> > m, vector<double> v);
@@ -94,7 +95,7 @@ class LSTMNode{
   public:
     LSTMNode(LSTMParam *,LSTMState *);
     void bottom_data_is(vector<double> x, vector<double> s_prev, vector<double> h_prev);
-    void top_diff_is(vector<double> top_diff_h, vector<double> top_diff_s);
+    void top_diff_is(vector<double> top_diff_h, vector<double> top_diff_s,string flag="dot");
     LSTMParam* get_param(); LSTMState* get_state();
 };
 
@@ -102,6 +103,7 @@ class LossLayer{
   public:
     //simple loss
     LossLayer();
+    //注意带有默认值的函数声明的情况！一般采用找各种方式！
     double loss(vector<double> pred, vector<double> label,string str,int flag=0);
     vector<double> bottom_diff(vector<double> pred, vector<double> label,string str,int flag=0);
 };
@@ -117,6 +119,7 @@ class LSTMNetwork{
     *update diffs by setting target sequence with corrensponding loss layer
     */
     double y_list_is(vector< vector<double> > y_list,LossLayer lossLayer);
+    double y_list_final(vector< vector<double> > y_list,LossLayer lossLayer);
     void x_list_clear();
     void x_list_add(vector<double> x);
     

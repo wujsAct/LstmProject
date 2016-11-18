@@ -169,6 +169,25 @@ vector<double> mat_dot_vec(vector< vector<double> > m, vector<double> v){
   return ret;
 }
 
+
+//multiply(vector xc,matrix m)
+vector<double> vec_multiply_mat(vector<double> v,vector< vector<double> > m){
+  if(m[0].size() != v.size()) {
+    cout<<"vec_multiply_mat wrong: dimension mismatch!"<<endl;
+    exit(-1);
+  }
+  double nums=0;
+  vector<double> ret;
+  for(size_t j =0;j<m[1].size();j++){
+    nums =0;
+    for(size_t i =0;i<m[0].size();i++){
+      nums += m[i][j] * v[j];
+    }
+    ret.push_back(nums);
+  }  
+  return ret;
+}
+
 double vec_dot_vec( vector<double>  v1, vector<double> v2){
   if(v1.size() != v2.size()) {
     cout<<"vec_dot_vec wrong: dimension mismatch!"<<endl;
